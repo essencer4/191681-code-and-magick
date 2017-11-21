@@ -2,6 +2,42 @@
 
 window.renderStatistics = function (ctx, names, times) {
 
+  var calcBlueColorWithRandomOpacity = function () {
+    return 'rgba(0, 0, 255, ' + Math.random() + ')';
+  };
+
+  var createColumnOfHistogram = function () {
+    for (var j = 0; j < times.length; j++) {
+      if (names[j] === 'Вы') {
+        ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+      } else {
+        ctx.fillStyle = calcBlueColorWithRandomOpacity();
+      }
+      ctx.fillRect(initialX + (indent + barWidth) * j, initialY + (initialY - times[j] * step), barWidth, times[j] * step);
+    }
+  };
+
+  var createLegendForColumnOfHistogram = function () {
+    for (var e = 0; e < times.length; e++) {
+      ctx.fillStyle = '#000';
+      ctx.fillText(names[e], initialX + (indent + barWidth) * e, initialY + lineHeightForNames);
+      ctx.fillText(Math.round(times[e]), initialX + (indent + barWidth) * e, initialY + (initialY - times[e] * step - lineHeightForTimes));
+    }
+  };
+
+  /* var searchMaximumElementInArray = function () {
+    var max = -1;
+    for (var i = 0; i < times.length; i++) {
+      var time = times[i];
+      if (time > max) {
+        max = time;
+      }
+    }
+    var histogramHeight = 150; // величина из ТЗ (статичная переменная), которая обозначает высоту в px;
+    var step = histogramHeight / (max - 0); // расчет высоты отдельной колонки в px;
+    return step;
+  };*/
+
   // Здесь создается прямоугольник-тень
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; // translucent black|полупрозрачный черный;
   ctx.strokeRect(110, 20, 420, 270);
@@ -29,7 +65,7 @@ window.renderStatistics = function (ctx, names, times) {
     }
   }
 
-  var histogramHeight = 150; // величина из ТЗ (статичная переменная) в px;
+  var histogramHeight = 150; // величина из ТЗ (статичная переменная), которая обозначает высоту в px;
   var step = histogramHeight / (max - 0); // расчет высоты отдельной колонки в px;
 
   // Создание гистограмм
@@ -43,15 +79,8 @@ window.renderStatistics = function (ctx, names, times) {
   var lineHeightForNames = 145; // отступ от столбиков для надписи с именами в px;
   var lineHeightForTimes = 10; // отступ от столбиков для надписи с числами (которое время прохождения для отдельного игрока) в px;
 
-  for (var j = 0; j < times.length; j++) {
-    if (names[j] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
-    }
-    ctx.fillRect(initialX + (indent + barWidth) * j, initialY + (initialY - times[j] * step), barWidth, times[j] * step);
-    ctx.fillStyle = '#000';
-    ctx.fillText(names[j], initialX + (indent + barWidth) * j, initialY + lineHeightForNames);
-    ctx.fillText(Math.round(times[j]), initialX + (indent + barWidth) * j, initialY + (initialY - times[j] * step - lineHeightForTimes));
-  }
+  /* searchMaximumElementInArray(); */
+  createColumnOfHistogram();
+  createLegendForColumnOfHistogram();
+
 };
