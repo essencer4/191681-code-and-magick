@@ -2,6 +2,8 @@
 
 window.renderStatistics = function (ctx, names, times) {
 
+  // Начало написания функций
+
   var calcBlueColorWithRandomOpacity = function () {
     return 'rgba(0, 0, 255, ' + Math.random() + ')';
   };
@@ -25,18 +27,18 @@ window.renderStatistics = function (ctx, names, times) {
     }
   };
 
-  /* var searchMaximumElementInArray = function () {
+  var findMaxTimeValue = function (arr) {
     var max = -1;
-    for (var i = 0; i < times.length; i++) {
-      var time = times[i];
+    for (var i = 0; i < arr.length; i++) {
+      var time = Math.floor(arr[i]);
       if (time > max) {
         max = time;
       }
     }
-    var histogramHeight = 150; // величина из ТЗ (статичная переменная), которая обозначает высоту в px;
-    var step = histogramHeight / (max - 0); // расчет высоты отдельной колонки в px;
-    return step;
-  };*/
+    return max;
+  };
+
+  // Конец написания функций
 
   // Здесь создается прямоугольник-тень
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'; // translucent black|полупрозрачный черный;
@@ -56,14 +58,7 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Ура вы победили!', 120, 40);
   ctx.fillText('Список результатов:', 120, 60);
 
-  var max = -1;
-
-  for (var i = 0; i < times.length; i++) {
-    var time = times[i];
-    if (time > max) {
-      max = time;
-    }
-  }
+  var max = findMaxTimeValue(times);
 
   var histogramHeight = 150; // величина из ТЗ (статичная переменная), которая обозначает высоту в px;
   var step = histogramHeight / (max - 0); // расчет высоты отдельной колонки в px;
@@ -79,7 +74,8 @@ window.renderStatistics = function (ctx, names, times) {
   var lineHeightForNames = 145; // отступ от столбиков для надписи с именами в px;
   var lineHeightForTimes = 10; // отступ от столбиков для надписи с числами (которое время прохождения для отдельного игрока) в px;
 
-  /* searchMaximumElementInArray(); */
+  // Вызов функций
+
   createColumnOfHistogram();
   createLegendForColumnOfHistogram();
 
